@@ -1,6 +1,8 @@
 import "./App.css"
 import sendIcon from "./assets/send.png"
 import {useState, useEffect} from "react"
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 export default function App()
 {
@@ -16,8 +18,8 @@ export default function App()
     }
   }
 
-  const renderedMsgs = messages.map((msg, index)=><p key={index} className={msg.direction}>{msg.message}</p>)
-
+  const renderedMsgs = messages.map((msg, index)=><p key={index} className={msg.direction}><ReactMarkdown>{msg.message}</ReactMarkdown></p>)
+      
   useEffect(()=>{
     
     if(messages[messages.length-1].direction == "sent")
