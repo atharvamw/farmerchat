@@ -36,7 +36,7 @@ main {
 
 .chat-container {
   width: 100%;
-  max-width: 700px;
+  max-width: 1000px;
   display: flex;
   flex-direction: column;
   background: rgba(15, 23, 15, 0.85);

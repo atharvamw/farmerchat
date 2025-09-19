@@ -3,11 +3,13 @@ import sendIcon from "./assets/send.png"
 import {useState, useEffect} from "react"
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import VoiceInput from "./components/VoiceInput";
 
 export default function App()
 {
   const [messages, setMessages] = useState([{"role": "user", "content": "hello"}]);
   const [inputValue, setInputValue] = useState("");
+  const [voiceMsg, setVoiceMsg] = useState("");
 
   function handleSend(formdata)
   {
@@ -42,7 +44,7 @@ export default function App()
       };
 
       fetch("https://farmerai.atharvawadekar123.workers.dev/", options)
-      .then(res=> res.text())
+      .then(res=> res.json())
       .then(data=>{
         setMessages((prev)=>([...prev, {"role": "assistant", "content": data}]))
     }
@@ -70,6 +72,7 @@ export default function App()
               placeholder="Ask me anything about farming..." 
             />
             <button type="submit"><img src={sendIcon} alt="Send" /></button>
+            <VoiceInput onResult={(text)=> setInputValue(text) }/>
           </form>
 
       </div>
