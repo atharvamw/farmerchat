@@ -23,7 +23,7 @@ export default function VoiceInput({ onResult, language, onLanguageChange }) {
 
     const rec = new SpeechRecognition();
     rec.lang = language;
-    rec.interimResults = true;
+    rec.interimResults = false;
     rec.continuous = true; // Changed to false to prevent continuous listening issues
 
     rec.onresult = (event) => {
