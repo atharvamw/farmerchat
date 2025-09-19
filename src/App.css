@@ -68,7 +68,7 @@ main {
   display: none;
 }
 
-.received {
+.assistant {
   background: linear-gradient(135deg, #1e2e1e 0%, #2d3e2d 100%);
   color: #e2f0e2;
   align-self: flex-start;
@@ -86,7 +86,7 @@ main {
   position: relative;
 }
 
-.received::before {
+.assistant::before {
   content: '';
   position: absolute;
   left: -8px;
@@ -98,7 +98,7 @@ main {
   border-color: transparent #2d3e2d transparent transparent;
 }
 
-.sent {
+.user {
   background: linear-gradient(135deg, #16a34a 0%, #22c55e 50%, #15803d 100%);
   color: #ffffff;
   align-self: flex-end;
@@ -116,7 +116,7 @@ main {
   position: relative;
 }
 
-.sent::before {
+.user::before {
   content: '';
   position: absolute;
   right: -8px;

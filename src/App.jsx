@@ -6,27 +6,48 @@ import remarkGfm from "remark-gfm";
 
 export default function App()
 {
-  const [messages, setMessages] = useState([{"direction": "sent", "message": "hello"}]);
+  const [messages, setMessages] = useState([{"role": "user", "content": "hello"}]);
   const [inputValue, setInputValue] = useState("");
 
-  function handleSend(e)
+  function handleSend(formdata)
   {
-    e.preventDefault();
     if(inputValue.trim()) {
-      setMessages((prev)=>([...prev, {"direction": "sent", "message": inputValue}]));
+      setMessages((prev)=>([...prev, {"role": "user", "content": formdata.get("query")}]));
       setInputValue("");
     }
   }
 
-  const renderedMsgs = messages.map((msg, index)=><p key={index} className={msg.direction}><ReactMarkdown>{msg.message}</ReactMarkdown></p>)
+  const renderedMsgs = messages.map((msg, index)=><p key={index} className={msg.role}><ReactMarkdown>{msg.content}</ReactMarkdown></p>)
       
   useEffect(()=>{
     
-    if(messages[messages.length-1].direction == "sent")
+    if(messages[messages.length-1].role == "user")
     {
-      fetch("https://farmerai.atharvawadekar123.workers.dev/?query=" + messages[messages.length-1].message)
-      .then(res => res.json())
-      .then(data=>setMessages((prev)=>([...prev, {"direction": "received", "message": data}])));
+
+      const options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          "messages": [
+            
+            messages[messages.length-1],
+            messages[messages.length-2],
+            messages[messages.length-3],
+            messages[messages.length-4],
+            messages[messages.length-5]
+          ].filter(Boolean)
+        })
+      };
+
+      fetch("https://farmerai.atharvawadekar123.workers.dev/", options)
+      .then(res=> res.text())
+      .then(data=>{
+        setMessages((prev)=>([...prev, {"role": "assistant", "content": data}]))
+    }
+  );
+      
     }
 
   }, [messages])
@@ -40,7 +61,7 @@ export default function App()
           <div className="messages">
               {renderedMsgs}
           </div>
-          <form className="textbox" onSubmit={handleSend}>
+          <form className="textbox" action={handleSend}>
             <input 
               type="text" 
               name="query" 
